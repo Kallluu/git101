@@ -1,0 +1,72 @@
+
+
+
+{% extends 'public_header.html' %}
+{% block content %}
+      <title>Missing Person Report</title>
+      <style>
+         
+
+         .container-missing {
+            width: 40%; /* Adjusted size for a more compact form */
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         }
+
+         h2 {
+            text-align: center;
+            color: #d9534f;
+            font-size: 24px;
+         }
+
+         label {
+            font-weight: bold;
+            font-size: 16px;
+         }
+
+         input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+         }
+
+         button {
+            width: 100%;
+            padding: 10px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+         }
+
+         button:hover {
+            background-color: #c9302c;
+         }
+
+         .form-group {
+            margin-bottom: 12px;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container-missing">
+         <h2>Report a Missing Person</h2>
+         <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}  
+            <div class="form-group">
+               {{ form.as_p }}  
+            </div>
+            <button type="submit">Submit Report</button>
+         </form>
+      </div>
+   </body>
+   {% endblock %}

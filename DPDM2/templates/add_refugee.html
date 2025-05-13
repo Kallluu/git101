@@ -1,0 +1,100 @@
+{% extends 'camp_header.html' %}
+{% block content %}
+<title>Add Refugee</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container-refugee {
+        max-width: 600px;
+        margin: 60px auto;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #198754;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        border-radius: 8px;
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ced4da;
+    }
+
+    .btn-submit {
+        background-color: #198754;
+        color: white;
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        transition: 0.3s ease-in-out;
+    }
+
+    .btn-submit:hover {
+        background-color: #157347;
+        box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+    }
+</style>
+
+<div class="container-refugee">
+    <h1>ADD REFUGEE</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ ref.name.label_tag }}
+            {{ ref.name }}
+        </div>
+
+        <div class="form-group">
+            {{ ref.age.label_tag }}
+            {{ ref.age }}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label d-block">Gender</label>
+            {% for radio in ref.gender %}
+                <div class="form-check form-check-inline">
+                    {{ radio.tag }}
+                    <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                </div>
+            {% endfor %}
+        </div>
+        
+        
+
+        <div class="form-group">
+            {{ ref.address.label_tag }}
+            {{ ref.address }}
+        </div>
+
+        <div class="form-group">
+            {{ ref.contact.label_tag }}
+            {{ ref.contact }}
+        </div>
+
+        <button type="submit" class="btn-submit mt-3">Submit</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

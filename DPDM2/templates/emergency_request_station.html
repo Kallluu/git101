@@ -1,0 +1,77 @@
+{% extends 'station_header.html' %}
+{% block content %}
+        <title>Emergency Alerts</title>
+        <style>
+            
+            .container-emergency {
+                width: 80%;
+                margin: 50px auto;
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            h2 {
+                text-align: center;
+                color: #d9534f;
+                font-size: 24px;
+            }
+
+            label {
+                font-size: 18px;
+                color: #333;
+            }
+
+            textarea {
+                width: 100%;
+                height: 150px;
+                padding: 10px;
+                margin-top: 10px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            button {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                margin-top: 20px;
+                background-color: #d9534f;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 18px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #c9302c;
+            }
+
+            .alert {
+                background-color: #f9ed69;
+                padding: 15px;
+                margin: 10px 0;
+                border-radius: 5px;
+                border: 1px solid #f0c36d;
+                color: #856404;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-emergency">
+            <h2>Emergency Alerts</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <label for="alert">Emergency message:</label>
+                <textarea id="alert" name="alert" ></textarea>
+                <button type="submit">Send Alerts</button>
+            </form>
+        </div>
+    </body>
+{% endblock %}
+

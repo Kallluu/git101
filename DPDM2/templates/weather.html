@@ -1,0 +1,287 @@
+{% extends 'header.html' %}
+{% block content %}
+
+    <title>Weather & Disaster Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --accent-color: #81C784;
+            --text-color: #333;
+            --light-bg: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --danger-color: #E53935;
+            --warning-color: #FFA000;
+            --safe-color: #43A047;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+       
+        
+        .container-predict {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin: 25px 0 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h3 i {
+            margin-right: 10px;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4);
+        }
+        
+        .btn i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        .info-card {
+            background-color: var(--light-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .info-item {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-item b {
+            color: var(--secondary-color);
+        }
+        
+        .prediction {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .danger {
+            background-color: rgba(229, 57, 53, 0.1);
+            border-left: 4px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+        
+        .warning {
+            background-color: rgba(255, 160, 0, 0.1);
+            border-left: 4px solid var(--warning-color);
+            color: var(--warning-color);
+        }
+        
+        .safe {
+            background-color: rgba(67, 160, 71, 0.1);
+            border-left: 4px solid var(--safe-color);
+            color: var(--safe-color);
+        }
+        
+        .error {
+            color: var(--danger-color);
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(229, 57, 53, 0.1);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 12px 24px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-predict">
+        <h2><i class="ri-cloud-windy-line"></i> Weather & Disaster Prediction</h2>
+
+        <div class="btn-container">
+            <button onclick="getLocation()" class="btn">
+                Get My Location & Predict Disaster
+                <i class="ri-arrow-right-line"></i>
+            </button>
+        </div>
+
+        <script>
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            }
+
+            function showPosition(position) {
+                let lat = position.coords.latitude;
+                let lon = position.coords.longitude;
+                window.location.href = `/weather/?lat=${lat}&lon=${lon}`;
+            }
+
+            function showError(error) {
+                let errorMsg = "";
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMsg = "User denied the request for Geolocation.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMsg = "Location information is unavailable.";
+                        break;
+                    case error.TIMEOUT:
+                        errorMsg = "The request to get user location timed out.";
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        errorMsg = "An unknown error occurred.";
+                        break;
+                }
+                
+                const errorElement = document.createElement('div');
+                errorElement.className = 'error';
+                errorElement.innerHTML = `<b>${errorMsg}</b>`;
+                document.querySelector('.container').appendChild(errorElement);
+            }
+        </script>
+
+        {% if error %}
+            <div class="error">
+                <b>{{ error }}</b>
+            </div>
+        {% else %}
+            <div class="info-card">
+                <h3><i class="ri-map-pin-line"></i> Location</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <b>Latitude:</b> {{ latitude }}
+                    </div>
+                    <div class="info-item">
+                        <b>Longitude:</b> {{ longitude }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="ri-sun-line"></i> Weather Report</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <b>Temperature:</b> {{ temperature }}°C
+                    </div>
+                    <div class="info-item">
+                        <b>Humidity:</b> {{ humidity }}%
+                    </div>
+                    <div class="info-item">
+                        <b>Wind Speed:</b> {{ wind_speed }} m/s
+                    </div>
+                    <div class="info-item">
+                        <b>Condition:</b> {{ weather_condition }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="ri-alert-line"></i> Disaster Prediction</h3>
+                <div class="prediction {% if 'high risk' in prediction|lower %}danger{% elif 'moderate' in prediction|lower %}warning{% else %}safe{% endif %}">
+                    <b>{{ prediction }}</b>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+
+{% endblock %}

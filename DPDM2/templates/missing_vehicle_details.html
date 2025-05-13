@@ -1,0 +1,77 @@
+
+    {% extends 'station_header.html' %}
+    {% block content %}
+    <style>
+       
+
+        .container-vehicle {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            color: #198754;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            text-align: center;
+        }
+
+        th {
+            background: #198754;
+            color: white;
+            padding: 12px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            transition: 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-vehicle">
+        <h2>List of Missing Vehicles</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Vehicle Category</th>
+                        <th>Vehicle Type</th>
+                        <th>Company Name</th>
+                        <th>Vehicle Number</th>
+                        <th>Color</th>
+                        <th>Missing Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                    <tr>
+                        <td>{{ vehicle.vehicle_category }}</td>
+                        <td>{{ vehicle.vehicle_type }}</td>
+                        <td>{{ vehicle.company_name }}</td>
+                        <td>{{ vehicle.vehicle_number }}</td>
+                        <td>{{ vehicle.color }}</td>
+                        <td>{{ vehicle.missing_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+{% endblock %}

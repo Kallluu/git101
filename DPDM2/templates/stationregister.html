@@ -1,14 +1,160 @@
-<html>
-    <head>
-        <title>Login</title>
-    </head>
-<body>
-    <center><h1>Registration Form</h1></center>
-    <form method="post">
-        {% csrf_token %}
-        {{ stationf.as_p }}
-        {{ log.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+{% extends 'header.html' %}
+
+{% block content %}
+    <title>StationRegistration </title>
+    <style>
+        .container-register {
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    <div class="container-register">
+        <h1>Station Registration</h1>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ stationf.as_p }}
+            </div>
+
+            <div class="form-group">
+                {{ log.as_p }}
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const validators = [];
+    
+            function handleValidation(input, pattern, invalidMsg) {
+                const feedback = document.createElement('small');
+                feedback.style.display = 'block';
+                input.parentNode.appendChild(feedback);
+    
+                function validate() {
+                    const value = input.value.trim();
+                    if (!value) {
+                        feedback.textContent = '❌ This field is required';
+                        feedback.style.color = 'red';
+                        return false;
+                    } else if (!pattern.test(value)) {
+                        feedback.textContent = '❌ ' + invalidMsg;
+                        feedback.style.color = 'red';
+                        return false;
+                    } else {
+                        feedback.textContent = '';
+                        return true;
+                    }
+                }
+    
+                input.addEventListener('input', validate);
+                validators.push(validate);
+            }
+    
+            // ✅ Station Form Validations
+            const stationIdInput = document.querySelector('input[name="station_id"]');
+            if (stationIdInput) {
+                handleValidation(stationIdInput, /^[a-zA-Z0-9]+$/, 'Station ID must be alphanumeric');
+            }
+    
+            const address1Input = document.querySelector('input[name="address_line1"]');
+            if (address1Input) {
+                handleValidation(address1Input, /.+/, 'Address Line 1 is required');
+            }
+    
+            const address2Input = document.querySelector('input[name="address_line2"]');
+            if (address2Input) {
+                handleValidation(address2Input, /.+/, 'Address Line 2 is required');
+            }
+    
+            const districtInput = document.querySelector('input[name="district"]');
+            if (districtInput) {
+                handleValidation(districtInput, /^[A-Za-z ]+$/, 'District should contain only letters and spaces');
+            }
+    
+            const cityInput = document.querySelector('input[name="city"]');
+            if (cityInput) {
+                handleValidation(cityInput, /^[A-Za-z ]+$/, 'City should contain only letters and spaces');
+            }
+    
+            const contactInput = document.querySelector('input[name="contact"]');
+            if (contactInput) {
+                handleValidation(contactInput, /^\d{10}$/, 'Contact must be a 10-digit number');
+            }
+    
+            // ✅ Login Form Validations
+            const emailInput = document.querySelector('input[name="email"]');
+            if (emailInput) {
+                handleValidation(emailInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Enter a valid email address');
+            }
+    
+            const passwordInput = document.querySelector('input[name="password"]');
+            if (passwordInput) {
+                handleValidation(passwordInput, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, 'Password must be 8+ characters, with uppercase, lowercase, number, and special character');
+            }
+    
+            // Prevent form submission on validation errors
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    let isValid = true;
+                    validators.forEach(validateFn => {
+                        if (!validateFn()) isValid = false;
+                    });
+                    if (!isValid) {
+                        e.preventDefault();
+                        alert("❌ Please fix the validation errors before submitting.");
+                    }
+                });
+            }
+        });
+    </script>
+    
+{% endblock %}

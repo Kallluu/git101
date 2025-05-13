@@ -1,0 +1,79 @@
+{%  extends 'public_header.html' %}
+{% block content %}
+
+<body style="background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px;">
+
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0d6efd;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #0d6efd;
+            background-color: #ffffff;
+            box-shadow: 0 0 5px rgba(13, 110, 253, 0.2);
+        }
+
+        button[type="submit"] {
+            background-color: #0d6efd;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0b5ed7;
+        }
+    </style>
+
+    <div class="form-container">
+        <h2>Edit Fund Allocation Details</h2>
+        <form method="POST">
+            {% csrf_token %}  
+            {{ form.as_p }}  
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+</body>
+{% endblock %}
+

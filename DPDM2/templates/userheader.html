@@ -8,7 +8,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 col-md-8">
                     <div class="header-top-left">
-                        <ul class="contact-info list-style">
+                        {% comment %} <ul class="contact-info list-style">
                             <li>
                                 <i class="flaticon-phone-call"></i>
                                 <a href="tel:10001000">+91 45858568</a>
@@ -18,22 +18,22 @@
                                <a href="https://templates.hibotheme.com/cdn-cgi/l/email-protection#d2bbbcb4bd92b1bebbbffcb1bdbf"><span class="__cf_email__" data-cfemail="345d5a525b7457585d591a575b59">[email&#160;protected]</span></a>
                             </li>
                             <li>
-                                <i class="flaticon-pin"></i>
-                                <p>2767 Sunrise Street, NY 1002, USA</p>
+                                 <i class="flaticon-pin"></i>
+                                <p>2767 Sunrise Street, NY 1002, USA</p> 
                             </li>
-                        </ul>
+                        </ul> {% endcomment %}
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="header-top-right">
                         <div class="select-lang">
-                            <i class="ri-earth-fill"></i>
-                            <div class="navbar-option-item navbar-language dropdown language-option">
+                            {% comment %} <i class="ri-earth-fill"></i> {% endcomment %}
+                            {% comment %} <div class="navbar-option-item navbar-language dropdown language-option">
                                 <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     <span class="lang-name"></span>
                                 </button>
-                                <div class="dropdown-menu language-dropdown-menu">
+                                 <div class="dropdown-menu language-dropdown-menu">
                                     <a class="dropdown-item" href="#">
                                         <img src="assets/img/uk.png" alt="flag">
                                         Eng
@@ -46,10 +46,10 @@
                                         <img src="assets/img/uae.png" alt="flag">
                                         العربيّة
                                     </a>
-                                </div>
-                            </div>
+                                </div> 
+                            </div> {% endcomment %}
                         </div>
-                        <ul class="social-profile list-style style1">
+                        {% comment %} <ul class="social-profile list-style style1">
                             <li>
                                 <a href="https://facebook.com/" target="_blank">
                                     <i class="ri-facebook-fill"></i>
@@ -70,7 +70,7 @@
                                     <i class="ri-pinterest-line"></i>
                                 </a>
                             </li>
-                        </ul>
+                        </ul> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -80,187 +80,60 @@
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light">
                <a class="navbar-brand" href="index.html">
-                    <img class="logo-light" src="{% static "users/assets/img/logo.png" %}" alt="logo">
-                    <img class="logo-dark" src="{% static "users/assets/img/logo-white.png" %}" alt="logo">
+                    <img class="logo-light" src="{% static "User/assets/img/dpdm.png" %}" alt="logo" width="120" height="auto">
+                    <img class="logo-dark" src="{% static "User/assets/img/dpdm-white.png" %}" alt="logo" width="120" height="auto">
                 </a>
                 <div class="collapse navbar-collapse main-menu-wrap" id="navbarSupportedContent">
                     <div class="menu-close d-lg-none">
                         <a href="javascript:void(0)"> <i class="ri-close-line"></i></a>
                     </div>
                     <ul class="navbar-nav ms-auto">
+                        
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
-                                Home
-                                <i class="ri-add-line"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="index.html" class="nav-link">Home One</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index-2.html" class="nav-link">Home Two</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index-3.html" class="nav-link">Home Three</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index-4.html" class="nav-link">Home Four</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index-5.html" class="nav-link active">Home Five</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="about.html" class="nav-link">
+                            <a href="#about" class="nav-link">
                                 About Us
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                Projects
+                                Registration
                                 <i class="ri-add-line"></i>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
-                                    <a href="project-one.html" class="nav-link">Project One</a>
+                                    <a href="campregi" class="nav-link">Camp Registration</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="project-two.html" class="nav-link">Project Two</a>
+                                    <a href="publicpath" class="nav-link">Public Registration</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="project-details.html" class="nav-link">Single Project</a>
+                                    <a href="volpath" class="nav-link">Volunteer Registration</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="stationpath" class="nav-link">Station Registration</a>
                                 </li>
                             </ul>
                         </li>
+                        
+                                
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                Pages
-                                <i class="ri-add-line"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Events
-                                        <i class="ri-add-line"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="event.html" class="nav-link">Events</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="event-details.html" class="nav-link">Single Events</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Volunteer
-                                        <i class="ri-add-line"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="team.html" class="nav-link">Our Volunteer</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="team-details.html" class="nav-link">Volunteer Profile</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="donation.html" class="nav-link">Make Donation</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="faq.html" class="nav-link">FAQ</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        User Pages
-                                        <i class="ri-add-line"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="login.html" class="nav-link">Login</a>
-                                        </li>
-                                         <li class="nav-item">
-                                            <a href="register.html" class="nav-link">Register</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="recover-password.html" class="nav-link">Recover Password</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="terms-of-service.html" class="nav-link">Terms of Service</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="privacy-policy.html" class="nav-link">Privacy Policy</a>
-                                </li>
-                                <li class="nav-item">
-                                     <a href="error-404.html" class="nav-link">404 Error Page</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                Profile
-                                <i class="ri-add-line"></i>
-                            </a>
-                            {% comment %} <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Blog Layout
-                                        <i class="ri-add-line"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="blog-no-sidebar.html" class="nav-link">Blog Grid</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="blog-left-sidebar.html" class="nav-link">Blog Left Sidebar</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="blog-right-sidebar.html" class="nav-link">Blog Right Sidebar</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Single Blog
-                                        <i class="ri-add-line"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="blog-details-no-sidebar.html" class="nav-link">Blog Details No Sidebar</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="blog-details-left-sidebar.html" class="nav-link">Blog Details Left Sidebar</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="blog-details-right-sidebar.html" class="nav-link">Blog Details Right Sidebar</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li> {% endcomment %}
-                        <li class="nav-item">
-                            <a href="contact.html" class="nav-link">Contact Us</a>
+                            <a href="#footer" class="nav-link">Contact Us</a>
                         </li>
                         <li class="nav-item d-lg-none">
-                            <a href="donation.html" class="nav-link btn style1">Donate Now</a>
+                            <a href="login" class="nav-link btn style1">Login</a>
                         </li>
                     </ul>
-                    <div class="other-options md-none">
+                    {% comment %} <div class="other-options md-none">
                         <div class="option-item">
                             <button class="searchbtn d-xl-none"><i class="ri-search-line"></i></button>
                             <div class="searchbox lg-none">
                                 <input type="search" placeholder="Search...">
                                 <button><i class="flaticon-search-1"></i></button>
                             </div>
-                        </div>
-                        <div class="option-item">
-                            <a href="donation.html" class="btn style1">Donate Now</a>
-                        </div>
+                        </div> {% endcomment %}
+                         <div class="option-item">
+                            <a href="login" class="btn style1">Login</a>
+                        </div> 
                     </div>
                 </div>
             </nav>

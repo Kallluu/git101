@@ -12,50 +12,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<link href=" https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 	<link rel="stylesheet" href="{% static 'login/stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' %}">
 	
 	<link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+	<style>
+        body {
+            background-image: url('{% static "login/images/fire-login.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        .login-wrap {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 
 	</head>
 	<body>
-	<section class="ftco-section">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section"></h2>
+		<section class="ftco-section">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-6 text-center mb-5">
+						<h2 class="heading-section"></h2>
+					</div>
 				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-md-7 col-lg-5">
-					<div class="login-wrap p-4 p-md-5">
-		      	<div class="icon d-flex align-items-center justify-content-center">
-		      		<span class="fa fa-user-o"></span>
-		      	</div>
-		      	<h3 class="text-center mb-4">Login</h3>
+				<div class="row justify-content-center">
+					<div class="col-md-7 col-lg-5">
+						<div class="login-wrap p-4 p-md-5">
+							<div class="icon d-flex align-items-center justify-content-center">
+								<span class="fa fa-user"></span>  <!-- Changed to solid user icon -->
+							</div>
+							<h3 class="text-center mb-4">Login</h3>
 						<form method="post" class="login-form">
 		      		<div class="form-group">
 						{% csrf_token %}
 				{{ log.as_p }}
-		      			{% comment %} <input type="text" class="form-control rounded-left" placeholder="Username" required> {% endcomment %}
 		      		</div>
-					  {% comment %} <div class="form-group d-flex">
-						<input type="password" class="form-control rounded-left" placeholder="Password" required>
-						</div> {% endcomment %}
 						<div class="form-group">
 							<button type="submit" class="form-control btn btn-primary rounded submit px-3">Login</button>
 						</div>
 					</form>
-	            <div class="form-group d-md-flex">
-	            	<div class="w-50">
-	            		<label class="checkbox-wrap checkbox-primary">Remember Me
-									  <input type="checkbox" checked>
-									  <span class="checkmark"></span>
-									</label>
-								</div>
-								<div class="w-50 text-md-right">
-									<a href="#">Forgot Password</a>
-								</div>
 	            </div>
 	         
 	        </div>
@@ -63,6 +66,75 @@
 			</div>
 		</div>
 	</section>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const validators = [];
+		
+			function handleValidation(input, pattern, validMsg, invalidMsg, required = true) {
+				const feedback = document.createElement('small');
+				feedback.style.display = 'block';
+				input.parentNode.appendChild(feedback);
+		
+				function validate() {
+					const value = input.value.trim();
+					if (required && !value) {
+						feedback.textContent = '❌ This field is required';
+						feedback.style.color = 'red';
+						return false;
+					} else if (!pattern.test(value)) {
+						feedback.textContent = '❌ ' + invalidMsg;
+						feedback.style.color = 'red';
+						return false;
+					} else {
+						feedback.textContent = '✅ ' + validMsg;
+						feedback.style.color = 'green';
+						return true;
+					}
+				}
+		
+				input.addEventListener('input', validate);
+				validators.push(validate);
+			}
+		
+			// EMAIL: Basic email pattern
+			const emailInput = document.querySelector('input[name="email"]');
+			if (emailInput) {
+				handleValidation(
+					emailInput,
+					/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+					'Valid email address',
+					'Enter a valid email address'
+				);
+			}
+		
+			// PASSWORD: At least 8 chars with uppercase, lowercase, digit, special char
+			const passwordInput = document.querySelector('input[name="password"]');
+			if (passwordInput) {
+				handleValidation(
+					passwordInput,
+					/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/,
+					'Strong password',
+					'At least 8 characters with uppercase, lowercase, digit & special character'
+				);
+			}
+		
+			// Prevent form submission on error
+			const form = document.querySelector('form.login-form');
+			if (form) {
+				form.addEventListener('submit', function (e) {
+					let isValid = true;
+					validators.forEach(validateFn => {
+						if (!validateFn()) isValid = false;
+					});
+					if (!isValid) {
+						e.preventDefault();
+						alert("❌ Please correct the errors before submitting.");
+					}
+				});
+			}
+		});
+		</script>
+		
 
 	<script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/popper.js' %}"></script>

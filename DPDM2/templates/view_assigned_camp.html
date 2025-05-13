@@ -1,0 +1,105 @@
+{% comment %} <html>
+    <head>
+        <title>Assigned Camp</title>
+    </head>
+<body>
+    <table>
+        <tr>
+            <th>Camp Name</th>
+            <th>District</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>{{ assigned.camp_id.camp_name }}</td>
+            <td>{{ assigned.camp_id.district }}</td>
+            <td>
+                {% if assigned.approve_status == 1 %}
+                <span class="status-approved">Approved</span>
+                {% else %}
+                <span class="status-rejected">Rejected</span>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assigned Camp</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f8;
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        h2 {
+            text-align: center;
+            color:rgb(15, 36, 122);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color:rgb(15, 36, 122);
+            color: white;
+        }
+
+        .status-approved {
+            color:rgb(15, 36, 122);
+            font-weight: bold;
+        }
+
+        .status-rejected {
+            color:rgb(15, 36, 122);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Assigned Camp</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>Camp Name</th>
+            <th>District</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>{{ assigned.camp_id.camp_name }}</td>
+            <td>{{ assigned.camp_id.district }}</td>
+            <td>
+                {% if assigned.approve_status == 1 %}
+                    <span class="status-approved">Approved</span>
+                {% else %}
+                    <span class="status-rejected">Rejected</span>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

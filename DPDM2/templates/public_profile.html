@@ -1,14 +1,190 @@
-<html>
-    <head>
-        <title>Public Profile</title>
-    </head>
-<body>
-    <center><h1>Public Profile</h1></center>
-    <center><form method="POST">
-    {% csrf_token %}
-    {{ public_p.as_p }}
-    {{ emailf.as_p }}
-    <button type="submit">Submit</button>
-    </form></center>
-</body>
-</html>
+{% extends 'public_header.html' %}
+{% block content %}
+<title>Public Profile</title>
+<style>
+    .container-profile {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    label {
+        font-size: 14px;
+        color: #555;
+        font-weight: bold;
+    }
+    input, select, textarea {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #777;
+    }
+</style>
+<div class="container-profile">
+    <h1>Public Profile</h1>
+    <form method="POST" id="publicProfileForm">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ public_p.as_p }}
+        </div>
+        <div class="form-group">
+            {{ emailf.as_p }}
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<div class="footer">
+    <p>&copy; 2025 Your Website</p>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const validators = [];
+
+        // Reusable validation function
+        function handleValidation(input, pattern, validMsg, invalidMsg) {
+            const feedback = document.createElement('small');
+            feedback.style.display = 'block';
+            input.parentNode.appendChild(feedback);
+
+            function validate() {
+                const value = input.value.trim();
+                if (!value) {
+                    feedback.textContent = '❌ This field is required';
+                    feedback.style.color = 'red';
+                    return false;
+                } else if (!pattern.test(value)) {
+                    feedback.textContent = '❌ ' + invalidMsg;
+                    feedback.style.color = 'red';
+                    return false;
+                } else {
+                    feedback.textContent = '✅ ' + validMsg;
+                    feedback.style.color = 'green';
+                    return true;
+                }
+            }
+
+            input.addEventListener('input', validate);
+            validators.push(validate);
+        }
+
+        // Validate Public Profile fields
+        const nameInput = document.querySelector('input[name="name"]');
+        if (nameInput) {
+            handleValidation(
+                nameInput,
+                /^[A-Za-z ]+$/,  // Name validation (letters and spaces)
+                'Valid name',
+                'Name must contain only letters and spaces'
+            );
+        }
+
+        const contactInput = document.querySelector('input[name="contact"]');
+        if (contactInput) {
+            handleValidation(
+                contactInput,
+                /^\d{10}$/,  // Phone number (10 digits)
+                'Valid phone number',
+                'Enter a valid 10-digit phone number'
+            );
+        }
+
+        const emailInput = document.querySelector('input[name="email"]');
+        if (emailInput) {
+            handleValidation(
+                emailInput,
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/,  // Email validation
+                'Valid email address',
+                'Enter a valid email address'
+            );
+        }
+
+        // Address Validation
+        const addressInput = document.querySelector('textarea[name="address"]');
+        if (addressInput) {
+            handleValidation(
+                addressInput,
+                /.+/,  // Ensure the address is not empty (basic text validation)
+                'Valid address',
+                'Address cannot be empty'
+            );
+        }
+
+        // Real-time validation for required fields
+        const requiredFields = ['district', 'city', 'state'];
+        requiredFields.forEach(fieldName => {
+            const input = document.querySelector(`[name="${fieldName}"]`);
+            if (input) {
+                const feedback = document.createElement('small');
+                feedback.style.display = 'block';
+                input.parentNode.appendChild(feedback);
+
+                input.addEventListener('input', function () {
+                    if (input.value.trim() === '') {
+                        feedback.textContent = '❌ This field is required';
+                        feedback.style.color = 'red';
+                    } else {
+                        feedback.textContent = '';
+                    }
+                });
+            }
+        });
+
+        // Prevent form submission if any validation fails
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                let isValid = true;
+                validators.forEach(validateFn => {
+                    if (!validateFn()) isValid = false;
+                });
+                if (!isValid) {
+                    e.preventDefault();
+                    alert("❌ Please fill all required fields and fix validation errors.");
+                }
+            });
+        }
+    });
+</script>
+
+
+{% endblock %}

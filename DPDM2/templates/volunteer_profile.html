@@ -1,10 +1,256 @@
+{% extends 'volunteer_header.html' %}
+{% block content %}
+    <style>
+        
+        .container-vol {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        label {
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
 <body>
-    <center><h1>Volunteer Profile</h1></center>
-    <center><form method="POST">
-    {% csrf_token %}
-    {{ volunteer_p.as_p }}
-    {{ emailf.as_p }}
-    <button type="submit">Submit</button>
-    </form></center>
+
+    <div class="container-vol">
+        <h1>Volunteer Profile</h1>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ volunteer_p.name.label_tag }}
+                {{ volunteer_p.name }}
+            </div>
+    
+            <div class="form-group">
+                {{ volunteer_p.age.label_tag }}
+                {{ volunteer_p.age }}
+            </div>
+
+    
+            <div class="form-group">
+                <label class="form-label d-block">Gender</label>
+                {% for radio in volunteer_p.gender %}
+                    <div class="form-check form-check-inline">
+                        {{ radio.tag }}
+                        <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ volunteer_p.contact.label_tag }}
+                {{ volunteer_p.contact }}
+            </div>
+
+            <div class="form-group">
+                {{ volunteer_p.district.label_tag }}
+                {{ volunteer_p.district }}
+            </div>
+    
+            <!-- Email Field -->
+            <div class="form-group">
+                {{ emailf.email.label_tag }}
+                {{ emailf.email }}
+            </div>
+    
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Your Website</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const validators = [];
+        
+            function handleValidation(input, pattern, validMsg, invalidMsg, required = true) {
+                const feedback = document.createElement('small');
+                feedback.style.display = 'block';
+                input.parentNode.appendChild(feedback);
+        
+                function validate() {
+                    const value = input.value.trim();
+                    if (required && !value) {
+                        feedback.textContent = '❌ This field is required';
+                        feedback.style.color = 'red';
+                        return false;
+                    } else if (value && !pattern.test(value)) {
+                        feedback.textContent = '❌ ' + invalidMsg;
+                        feedback.style.color = 'red';
+                        return false;
+                    } else if (!required && value === '') {
+                        feedback.textContent = '';
+                        return true;
+                    } else {
+                        feedback.textContent = '✅ ' + validMsg;
+                        feedback.style.color = 'green';
+                        return true;
+                    }
+                }
+        
+                input.addEventListener('input', validate);
+                validators.push(validate);
+            }
+        
+            // NAME: Letters and spaces only
+            const nameInput = document.querySelector('input[name="name"]');
+            if (nameInput) {
+                handleValidation(
+                    nameInput,
+                    /^[A-Za-z\s]+$/,
+                    'Valid name',
+                    'Name must only contain letters and spaces'
+                );
+            }
+        
+            // GENDER: Should be either 'Male' or 'Female' or 'Other'
+            const genderInput = document.querySelector('select[name="gender"]');
+            if (genderInput) {
+                const feedback = document.createElement('small');
+                feedback.style.display = 'block';
+                genderInput.parentNode.appendChild(feedback);
+        
+                function validateGender() {
+                    if (!genderInput.value) {
+                        feedback.textContent = '❌ Please select a gender';
+                        feedback.style.color = 'red';
+                        return false;
+                    } else {
+                        feedback.textContent = '✅ Gender selected';
+                        feedback.style.color = 'green';
+                        return true;
+                    }
+                }
+        
+                genderInput.addEventListener('change', validateGender);
+                validators.push(validateGender);
+            }
+        
+            // AGE: Must be a number between 18 and 100
+            const ageInput = document.querySelector('input[name="age"]');
+            if (ageInput) {
+                handleValidation(
+                    ageInput,
+                    /^(1[89]|[2-9]\d|100)$/,
+                    'Valid age',
+                    'Age must be between 18 and 100'
+                );
+            }
+        
+            // CONTACT: 10-digit number
+            const contactInput = document.querySelector('input[name="contact"]');
+            if (contactInput) {
+                handleValidation(
+                    contactInput,
+                    /^\d{10}$/,
+                    'Valid phone number',
+                    'Enter a valid 10-digit phone number'
+                );
+            }
+        
+            // DISTRICT: Letters and spaces only
+            const districtInput = document.querySelector('input[name="district"]');
+            if (districtInput) {
+                handleValidation(
+                    districtInput,
+                    /^[A-Za-z\s]+$/,
+                    'Valid district name',
+                    'District must only contain letters and spaces'
+                );
+            }
+        
+            // EMAIL
+            const emailInput = document.querySelector('input[name="email"]');
+            if (emailInput) {
+                handleValidation(
+                    emailInput,
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    'Valid email address',
+                    'Enter a valid email address'
+                );
+            }
+        
+            // PASSWORD: 8+ chars with uppercase, lowercase, digit, special character
+            const passwordInput = document.querySelector('input[name="password"]');
+            if (passwordInput) {
+                handleValidation(
+                    passwordInput,
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/,
+                    'Strong password',
+                    'Minimum 8 characters, with uppercase, lowercase, digit, and special char'
+                );
+            }
+        
+            // Prevent submission if any validation fails
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    let isValid = true;
+                    validators.forEach(validateFn => {
+                        if (!validateFn()) isValid = false;
+                    });
+                    if (!isValid) {
+                        e.preventDefault();
+                        alert("❌ Please fix validation errors before submitting.");
+                    }
+                });
+            }
+        });
+    </script>
+        
+
 </body>
-</html>
+{% endblock %}

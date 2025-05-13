@@ -1,0 +1,81 @@
+{% extends 'volunteer_header.html' %}
+{% block content %}
+    <title>Duty Of Volunteers</title>
+    
+    <style>
+        
+        .container-vol {
+            max-width: 800px;
+            margin-top: 50px;
+            padding: 30px;
+            background: #ffffff;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h2 {
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<center>
+<body>
+    {% if messages %}
+    {% for m in messages %}
+    <div class="alert alert-info">{{ m }}</div>
+    {% endfor %}
+    {% endif %}
+    <div class="container-vol">
+        <h2>Duty Of Volunteers</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Camp Name</th>
+                    <th>District</th>
+                    <th>Assigned Date</th>
+                    <th>Duty</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for duty in duties %}
+                <tr>
+                    <td>{{ duty.camp_id.camp_name }}</td>
+                    <td>{{ duty.camp_id.district }}</td>  
+                    <td>{{ duty.current_date }}</td>
+                    <td>{{ duty.duty }}</td>
+                    <td>
+                        {% if duty.status == 1 %}
+                        <button disabled class="btn btn-success">Completed</button>
+                        {% else %}
+                        <a href="{% url 'duty_complete' duty.id %}" class="btn btn-primary">Complete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</center>
+{% endblock %}

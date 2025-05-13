@@ -1,0 +1,230 @@
+{% comment %} <html>
+    <head>
+    <title>Camp Needs Status</title>
+    </head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <label for="need">STATUS:</label>
+        <br><br>
+        <div>
+        <textarea  id="status" name="status" rows="4" cols="50"></textarea>
+        <br><br>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>  {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Disaster Admin</title>
+        <link rel="icon" type="image/png" href="{% static 'User/assets/img/dpdm.png' %}">
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="{% static 'Admin/css/styles.css' %}" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="index.html">Admin Dashboard</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <div style="text-align: right; padding: 10px;">
+                <a href="{% url 'logout' %}" 
+                   style="background-color: #dc3545; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                    Logout
+                </a>
+            </div>
+            
+            
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            {% comment %} <div class="sb-sidenav-menu-heading">Core</div> {% endcomment %}
+                            {% comment %} <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a> {% endcomment %}
+
+
+
+
+
+                            
+                            
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                
+                            </div>
+                            
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                   
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                       
+                                    </div>
+                                    
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                      
+                                    </div>
+                                </nav>
+                            </div>
+                            <div class="sb-sidenav-menu-heading">Addons</div>
+                           
+                            {% comment %} <a class="nav-link" href="tables.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a> {% endcomment %}
+                            
+                        <div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTables" aria-expanded="false" aria-controls="collapseTables">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseTables" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="camp_table_path">Camp Table</a>
+                                    <a class="nav-link" href="public_table_path">Public Table</a>
+                                    <a class="nav-link" href="volunteer_table_path">Volunteer Table</a>
+                                    <a class="nav-link" href="station_table_path">Station Table</a>
+
+                                </nav>
+
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-menu-heading">Camp Management</div>
+                        <a class="nav-link" href="{% url 'admin_needs' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
+                        Camp Needs
+                        </a>
+                    
+
+                    <div class="sb-sidenav-menu-heading">Volunteer Management</div>
+                    <!-- Link for Volunteer Requests -->
+                    <a class="nav-link" href="{% url 'admin_volunteer_request' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        Volunteer Requests
+                    </a>
+
+                    <div class="sb-sidenav-menu-heading">Public Management</div>
+
+                    <a class="nav-link" href="{% url 'fund_allocation_admin' %}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        Fund Request
+                    </a>
+
+                    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Start Bootstrap
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <style>
+                       
+                
+                        .container-body {
+                            max-width: 600px;
+                            margin: 60px auto;
+                            background: white;
+                            padding: 30px;
+                            border-radius: 10px;
+                            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+                        }
+                
+                        h1 {
+                            color: #28a745;
+                            text-align: center;
+                            font-size: 1.8rem;
+                            font-weight: bold;
+                            margin-bottom: 20px;
+                        }
+                
+                        label {
+                            font-weight: 600;
+                            color: #333;
+                        }
+                
+                        textarea {
+                            width: 100%;
+                            border-radius: 6px;
+                            border: 1px solid #ced4da;
+                            padding: 10px;
+                            font-size: 1rem;
+                            resize: none;
+                        }
+                
+                        .btn-primarys {
+                            width: 100%;
+                            background-color: #28a745;
+                            border: none;
+                            padding: 10px;
+                            font-size: 1rem;
+                            font-weight: bold;
+                            border-radius: 8px;
+                            transition: 0.3s ease-in-out;
+                        }
+                
+                        .btn-primarys:hover {
+                            background-color: #218838;
+                            transform: scale(1.02);
+                        }
+                    </style>
+                </head>
+                <body>
+                
+                    <div class="container-body">
+                        <h1>Camp Needs Status</h1>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="status">STATUS:</label>
+                                <textarea id="status" name="status" rows="4" class="form-control"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primarys mt-3">Submit</button>
+                        </form>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+ 

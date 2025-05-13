@@ -1,0 +1,111 @@
+{% extends 'station_header.html' %}
+{% block content %}
+<title>Station - Missing Persons</title>
+
+<style>
+    .container-person {
+        width: 85%;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .container-person h2 {
+        text-align: center;
+        color: #d9534f;
+        margin-bottom: 20px;
+    }
+
+    .person-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .person-table th, .person-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .person-table th {
+        background-color: #d9534f;
+        color: white;
+    }
+
+    .person-photo {
+        width: 70px;
+        height: 70px;
+        border-radius: 5px;
+        object-fit: cover;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .no-data {
+        text-align: center;
+        color: gray;
+        font-size: 18px;
+        padding: 20px;
+    }
+</style>
+
+<div class="container-person">
+    <h2>Missing Persons Not Found in Camp</h2>
+
+    {% if persons %}
+    <table class="person-table">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Last Seen</th>
+                <th>Other Details</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for person in persons %}
+            <tr>
+                <td>
+                    {% if person.photo %}
+                        <img src="{{ person.photo.url }}" alt="Photo" class="person-photo">
+                    {% else %}
+                        <span>No Photo</span>
+                    {% endif %}
+                </td>
+                <td>{{ person.name }}</td>
+                <td>{{ person.contact }}</td>
+                <td>{{ person.missing_place }}</td>
+                <td>{{ person.other_details }}</td>
+                <td>
+                    <a href="{% url 'mark_as_found' person.id %}" class="btn btn-success">✔ Mark as Found</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="no-data">✅ No missing persons currently marked as "Not Found".</p>
+    {% endif %}
+</div>
+{% endblock %}

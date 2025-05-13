@@ -1,16 +1,212 @@
 
-{% extends "camp_header.html" %}
-{% block content %}
-
-    <center><form method="POST">
-    {% csrf_token %}
-
-    {{ camp_p.as_p }}
-    {{ emailf.as_p }}
-
-    <button type="submit">Submit</button>
-    </form></center>
 
 
+ {% extends 'camp_header.html' %}
+ {% block content %}
 
-{% endblock%}
+     <style>
+       
+        .container_profile {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        label {
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style> 
+
+<body>
+
+    <div class="container_profile">
+        <h1>Camp Profile</h1>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ camp_p.as_p }}
+            </div>
+
+            <div class="form-group">
+                {{ emailf.as_p }}
+            </div>
+
+            <button type="submit">Update Profile</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Your Website</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const validators = [];
+      
+          function handleValidation(input, pattern, validMsg, invalidMsg) {
+            const feedback = document.createElement('small');
+            feedback.style.display = 'block';
+            input.parentNode.appendChild(feedback);
+      
+            function validate() {
+              const value = input.value.trim();
+              if (!value) {
+                feedback.textContent = '❌ This field is required';
+                feedback.style.color = 'red';
+                return false;
+              } else if (!pattern.test(value)) {
+                feedback.textContent = '❌ ' + invalidMsg;
+                feedback.style.color = 'red';
+                return false;
+              } else {
+                feedback.textContent = '✅ ' + validMsg;
+                feedback.style.color = 'green';
+                return true;
+              }
+            }
+      
+            input.addEventListener('input', validate);
+            validators.push(validate);
+          }
+      
+          // Camp ID Validation (alphanumeric, including letters and numbers)
+          const campIdInput = document.querySelector('input[name="camp_id"]');
+          if (campIdInput) {
+            handleValidation(
+              campIdInput,
+              /^[A-Za-z0-9]+$/,  // Alphanumeric
+              'Valid camp ID',
+              'Camp ID must be alphanumeric (letters and numbers only)'
+            );
+          }
+      
+          // Camp Name Validation (alphanumeric, including letters and numbers)
+          const campNameInput = document.querySelector('input[name="camp_name"]');
+          if (campNameInput) {
+            handleValidation(
+              campNameInput,
+              /^[A-Za-z0-9 ]+$/,  // Alphanumeric, spaces allowed
+              'Valid camp name',
+              'Camp name must be alphanumeric (letters, numbers, and spaces only)'
+            );
+          }
+      
+          // Contact Number (10-digit)
+          const contactInput = document.querySelector('input[name="contact"]');
+          if (contactInput) {
+            handleValidation(
+              contactInput,
+              /^\d{10}$/,
+              'Valid phone number',
+              'Enter a valid 10-digit phone number'
+            );
+          }
+      
+          // Email Validation
+          const emailInput = document.querySelector('input[name="email"]');
+          if (emailInput) {
+            handleValidation(
+              emailInput,
+              /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              'Valid email address',
+              'Enter a valid email address'
+            );
+          }
+      
+          // Password Validation (min 8 chars, upper, lower, digit, special char)
+          const passwordInput = document.querySelector('input[name="password"]');
+          if (passwordInput) {
+            handleValidation(
+              passwordInput,
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/,
+              'Strong password',
+              'Password must be at least 8 characters, include uppercase, lowercase, a number, and a special character'
+            );
+          }
+      
+          // Required Fields Validation (address, district, city, panchayat)
+          const requiredFields = ['address', 'district', 'city', 'panchayat'];
+          requiredFields.forEach(fieldName => {
+            const input = document.querySelector(`[name="${fieldName}"]`);
+            if (input) {
+              const feedback = document.createElement('small');
+              feedback.style.display = 'block';
+              input.parentNode.appendChild(feedback);
+      
+              input.addEventListener('input', function () {
+                if (input.value.trim() === '') {
+                  feedback.textContent = '❌ This field is required';
+                  feedback.style.color = 'red';
+                } else {
+                  feedback.textContent = '';
+                }
+              });
+            }
+          });
+      
+          // Prevent form submission if any field is invalid
+          const form = document.querySelector('form');
+          if (form) {
+            form.addEventListener('submit', function (e) {
+              let isValid = true;
+              validators.forEach(validateFn => {
+                if (!validateFn()) isValid = false;
+              });
+              if (!isValid) {
+                e.preventDefault();
+                alert("❌ Please fix validation errors before submitting.");
+              }
+            });
+          }
+        });
+    </script>
+      
+    
+{% endblock %}

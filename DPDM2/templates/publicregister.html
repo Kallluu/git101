@@ -1,14 +1,175 @@
-<html>
-    <head>
-        <title>Public Registration</title>
-    </head>
+{% extends 'header.html' %}
+
+{% block content %}
+    <title>Public Registration</title>
+    <style>
+        /* Styles as before */
+        .container-public {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
 <body>
-    <center><h1>Public Registration Form</h1></center>
-    <form method="POST">
-        {% csrf_token %}
-        {{ public_form.as_p }}
-        {{ log.as_p }}
-        <button type="submit">Submit</button>
-    </form>
+
+    <div class="container-public">
+        <h1>Public Registration</h1>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ public_form.as_p }}
+            </div>
+
+            <div class="form-group">
+                {{ log.as_p }}
+            </div>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Your Website</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const validators = [];
+
+            // Reusable validation function
+            function handleValidation(input, pattern, invalidMsg) {
+                const feedback = document.createElement('small');
+                feedback.style.display = 'block';
+                input.parentNode.appendChild(feedback);
+
+                function validate() {
+                    const value = input.value.trim();
+                    if (!value) {
+                        feedback.textContent = '❌ This field is required';
+                        feedback.style.color = 'red';
+                        return false;
+                    } else if (!pattern.test(value)) {
+                        feedback.textContent = '❌ ' + invalidMsg;
+                        feedback.style.color = 'red';
+                        return false;
+                    } else {
+                        feedback.textContent = ''; // Remove any feedback
+                        return true;
+                    }
+                }
+
+                input.addEventListener('input', validate);
+                validators.push(validate);
+            }
+
+            // ✅ Public Form Validations
+
+            const nameInput = document.querySelector('input[name="name"]');
+            if (nameInput) {
+                handleValidation(nameInput, /^[A-Za-z ]+$/, 'Name should contain only letters and spaces');
+            }
+
+            const addressInput = document.querySelector('input[name="address"]');
+            if (addressInput) {
+                handleValidation(addressInput, /.+/, 'Address is required');
+            }
+
+            const districtInput = document.querySelector('input[name="district"]');
+            if (districtInput) {
+                handleValidation(districtInput, /^[A-Za-z ]+$/, 'District should contain only letters and spaces');
+            }
+
+            const cityInput = document.querySelector('input[name="city"]');
+            if (cityInput) {
+                handleValidation(cityInput, /^[A-Za-z ]+$/, 'City should contain only letters and spaces');
+            }
+
+            const stateInput = document.querySelector('input[name="state"]');
+            if (stateInput) {
+                handleValidation(stateInput, /^[A-Za-z ]+$/, 'State should contain only letters and spaces');
+            }
+
+            const contactInput = document.querySelector('input[name="contact"]');
+            if (contactInput) {
+                handleValidation(contactInput, /^\d{10}$/, 'Contact should be a valid 10-digit phone number');
+            }
+
+            // ✅ Login Form Validations
+            const emailInput = document.querySelector('input[name="email"]');
+            if (emailInput) {
+                handleValidation(emailInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Enter a valid email address');
+            }
+
+            const passwordInput = document.querySelector('input[name="password"]');
+            if (passwordInput) {
+                handleValidation(passwordInput, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, 'Password must be at least 8 characters, include uppercase, lowercase, a number, and a special character');
+            }
+
+            // Prevent form submission if any validation fails
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    let isValid = true;
+                    validators.forEach(validateFn => {
+                        if (!validateFn()) isValid = false;
+                    });
+                    if (!isValid) {
+                        e.preventDefault();
+                        alert("❌ Please fill all required fields and fix validation errors.");
+                    }
+                });
+            }
+        });
+    </script>
 </body>
-</html>
+{% endblock %}

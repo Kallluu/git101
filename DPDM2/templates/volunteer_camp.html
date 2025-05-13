@@ -1,0 +1,129 @@
+{% extends 'camp_header.html' %}
+{% block content %}
+    <style>
+        
+        .container-assigned {
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        table {
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+        }
+        td {
+            background-color: #ffffff;
+            color: #555;
+            vertical-align: middle;
+        }
+        tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+        .btn-primary, .btn-warning {
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        .btn-warning {
+            background-color: #ff9800;
+            border: none;
+        }
+        .btn-warning:hover {
+            background-color: #e68900;
+        }
+        .alert {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .modal-content {
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-assigned">
+        <h1>Volunteers Assigned</h1>
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Contact</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ request.volunteer_id.name }}</td>
+                        <td>{{ request.volunteer_id.gender }}</td>
+                        <td>{{ request.volunteer_id.age }}</td>
+                        <td>{{ request.volunteer_id.contact }}</td>
+                        <td>{{ request.volunteer_id.login_id.email }}</td>
+                        <td>
+                            {% if request.duty_assignment.status == 1 %}
+                                <button class="btn btn-warning assigned-btn" data-toggle="modal" data-target="#assignMessageModal" 
+                                    data-message="This volunteer is already assigned!">
+                                    Assigned
+                                </button>
+                            {% else %}
+                                <a href="{% url 'duty_camp' request.volunteer_id.id %}" class="btn btn-primary">Assign</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Assigned Message Modal -->
+    <div class="modal fade" id="assignMessageModal" tabindex="-1" aria-labelledby="assignMessageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="assignMessageModalLabel">Volunteer Already Assigned</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center" id="assignMessage">
+                    <!-- Message will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('.assigned-btn').click(function(){
+                var message = $(this).data('message'); // Get message from button
+                $('#assignMessage').text(message); // Set message in modal
+            });
+        });
+    </script>
+
+</body>
+{% endblock %}

@@ -1,14 +1,190 @@
-<html>
-    <head>
-        <title>Volunteer Registration</title>
-    </head>
+{% extends 'header.html' %}
+{% block content %}
+    <title>Volunteer Registration</title>
+    <style>
+       
+        .container-regi {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+
+        }
+      
+    </style>
+</head>
 <body>
-    <center><h1>Volunteer Registration Form</h1></center>
-    <form method="POST">
-        {% csrf_token %}
-        {{ vol_form.as_p }}
-        {{ log.as_p }}
-        <button type="submit">Submit</button>
-    </form>
+
+    <div class="container-regi">
+        <h1>Volunteer Registration</h1>
+        <form method="POST">
+            {% csrf_token %}
+            
+           
+                {{ vol_form.as_p }}
+            
+                {{ log.as_p }}
+                
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Your Website</p>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const validators = [];
+    
+            function handleValidation(input, pattern, invalidMsg) {
+                const feedback = document.createElement('small');
+                feedback.style.display = 'block';
+                input.parentNode.appendChild(feedback);
+    
+                function validate() {
+                    const value = input.value.trim();
+                    if (!value) {
+                        feedback.textContent = '❌ This field is required';
+                        feedback.style.color = 'red';
+                        return false;
+                    } else if (!pattern.test(value)) {
+                        feedback.textContent = '❌ ' + invalidMsg;
+                        feedback.style.color = 'red';
+                        return false;
+                    } else {
+                        feedback.textContent = '';
+                        return true;
+                    }
+                }
+    
+                input.addEventListener('input', validate);
+                validators.push(validate);
+            }
+    
+            // ✅ Volunteer Form Fields
+            const nameInput = document.querySelector('input[name="name"]');
+            if (nameInput) {
+                handleValidation(nameInput, /^[A-Za-z ]+$/, 'Name must contain only letters and spaces');
+            }
+
+            const genderInputs = document.querySelectorAll('input[name="gender"]');
+            if (genderInputs.length > 0) {
+                const genderContainer = genderInputs[0].closest('.form-group') || genderInputs[0].parentNode;
+                const feedback = document.createElement('small');
+                feedback.style.display = 'block';
+                genderContainer.appendChild(feedback);
+
+            function validateGender() {
+                const isChecked = Array.from(genderInputs).some(input => input.checked);
+                if (!isChecked) {
+                    feedback.textContent = '❌ Please select a gender';
+                    feedback.style.color = 'red';
+                    return false;
+                } else {
+                    feedback.textContent = '';
+                    return true;
+                }
+            }
+
+    genderInputs.forEach(input => input.addEventListener('change', validateGender));
+    validators.push(validateGender);
+}
+    
+            const ageInput = document.querySelector('input[name="age"]');
+            if (ageInput) {
+                handleValidation(ageInput, /^(1[89]|[2-5][0-9]|60)$/, 'Age must be between 18 and 60');
+            }
+    
+            const contactInput = document.querySelector('input[name="contact"]');
+            if (contactInput) {
+                handleValidation(contactInput, /^\d{10}$/, 'Contact must be a 10-digit number');
+            }
+    
+            const districtInput = document.querySelector('input[name="district"]');
+            if (districtInput) {
+                handleValidation(districtInput, /^[A-Za-z ]+$/, 'District must contain only letters and spaces');
+            }
+    
+            // ✅ Login Form Fields
+            const emailInput = document.querySelector('input[name="email"]');
+            if (emailInput) {
+                handleValidation(emailInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Enter a valid email address');
+            }
+    
+            const passwordInput = document.querySelector('input[name="password"]');
+            if (passwordInput) {
+                handleValidation(passwordInput, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, 
+                'Password must be 8+ characters, include uppercase, lowercase, number, and special character');
+            }
+    
+            // Prevent form submission on validation errors
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    let isValid = true;
+                    validators.forEach(validateFn => {
+                        if (!validateFn()) isValid = false;
+                    });
+                    if (!isValid) {
+                        e.preventDefault();
+                        alert("❌ Please fix the validation errors before submitting.");
+                    }
+                });
+            }
+        });
+    </script>
+    
+    
+
+
 </body>
-</html>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'camp_header.html' %}
+{% block content %}
+        <style>
+            table{
+                border:3px solid black;
+                width:50%;}
+            th,td{
+                border:1px solid black;
+                padding:10px;
+                text-align:center;}
+        </style>
+        
+    </head>
+    <body>
+        <center>
+        <h1>List of Needs</h1>
+        <br>
+        <table>
+            <tr>
+            <th>Needs</th>
+            <th>Action</th>
+            <th>Status</th>
+            </tr>
+            {% for user in users %}
+         <tr>
+            <td>{{ user.need }}</td>
+            <td>
+                <a href="{% url 'edit_needs' user.id %}" class="btn btn-warning">EDIT</a>
+                <a href="{% url 'delete_needs' user.id %}" class="btn btn-danger">DELETE</a> 
+            </td>
+            <td>{{ user.status|default:"pending" }}</td>
+         </tr>
+         {% endfor %}
+        </table>
+        </center>
+
+</body>
+{% endblock %}
